@@ -6,6 +6,7 @@ import { setCurrentPage } from '../../actions/index';
 const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
     const [pages, setPages] = useState();
     const separator = '...';
+
     useEffect(() => {
     let pageNumbers = [];
     if(totalPages < 6) {

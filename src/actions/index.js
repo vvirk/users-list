@@ -1,7 +1,7 @@
 import * as type from './actionTypes';
 
 const getUrl = param => {
-    const urlApi = 'http://77.120.241.80:8911/api/';
+    const urlApi = 'https://cors-anywhere.herokuapp.com/77.120.241.80:8911/api/';
     return urlApi + param;
 }
 
