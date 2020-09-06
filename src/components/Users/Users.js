@@ -7,10 +7,12 @@ import { Pagination } from '../Pagination/Pagination';
 import { Btn } from '../commonComponents/Btn';
 import { NewUserForm } from '../NewUserForm/NewUserForm';
 
-const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
+const Users = ({ getAllUsers, allUsers, currentPage, totalPages, userToEdit }) => {
     const [currentUsers, setCurrentUsers] = useState();
     const [isShowNewUserForm, setIsShowNewUserForm] = useState(false);
 
+    const toggleNewUserForm = () => setIsShowNewUserForm(isShowNewUserForm ? false : true);
+    const getStartIndex = () => 5 * (currentPage - 1);
     const getCurrentUsers = () => {
         if (currentPage === 1) {
             setCurrentUsers(allUsers.slice(0, 5));
@@ -21,14 +23,12 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
         }
     }
 
-    const getStartIndex = () => 5 * (currentPage - 1);
-
-    const toggleNewUserForm = () => setIsShowNewUserForm(isShowNewUserForm ? false : true);
-
     useEffect(() => {
         getAllUsers();
     }, []);
-
+    useEffect(() => {
+        userToEdit && setIsShowNewUserForm(true);
+    }, [userToEdit])
     useEffect(() => {
         allUsers && getCurrentUsers(currentPage);
     }, [allUsers, totalPages, currentPage]);
@@ -38,7 +38,7 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
                 handleClick={toggleNewUserForm}
                 desc={'Створити нового користувачва'}
             />
-            {isShowNewUserForm && <NewUserForm />}
+            {isShowNewUserForm && <NewUserForm userToEdit={userToEdit} />}
             {currentUsers && <UsersList usersList={currentUsers} />}
             {totalPages > 1 &&
                 <Pagination />}
@@ -49,7 +49,8 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
 const mapStateToProps = state => ({
     allUsers: state.allUsers,
     currentPage: state.currentPage,
-    totalPages: state.totalPages
+    totalPages: state.totalPages,
+    userToEdit: state.userToEdit
 });
 
 const mapDispatchToProps = {

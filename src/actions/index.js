@@ -20,6 +20,17 @@ export const addAllUsers = allUsers => ({
     allUsers,
 });
 
+export const addEditedState = editedState => ({
+  type: type.ADD_EDITED_STATE,
+  editedState,
+});
+
+export const setUserToEdit = user => {
+    return({
+    type: type.SET_USER_TO_EDIT,
+    user,
+})};
+
 export const getAllUsers = () => async dispatch => {
     try {
       const response = await fetch(getUrl('users'));
@@ -61,4 +72,21 @@ export const deleteUser = id => async dispatch => {
     } catch (e) {
       console.error(e);
     }
+};
+
+export const editUser = userState => async dispatch => {
+  try {
+    const response = await fetch(getUrl(`user/${userState.id}`), {
+      method: 'PUT',
+      body: JSON.stringify(userState),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseBody = await response.json();
+    dispatch(addEditedState(responseBody));
+    return true;
+  } catch (e) {
+    console.error(e);
+  }
 };

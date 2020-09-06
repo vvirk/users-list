@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 
 import { InputText } from '../commonComponents/InputText';
 import { Btn } from '../commonComponents/Btn';
-import { createUser } from '../../actions/index';
+import { createUser, editUser } from '../../actions/index';
 
-const NewUserForm = ({ createUser }) => {
+const NewUserForm = ({ createUser, userToEdit, editUser }) => {
     const defaultState = {
         name: '',
         surname: '',
         desc: ''
     }
-    const [newUserState, setNewUserState] = useState(defaultState);
+    const [newUserState, setNewUserState] = useState(userToEdit ? userToEdit : defaultState);
     const { name, surname, desc } = newUserState;
 
     const handleNewUserState = userKey => e => {
@@ -20,7 +20,7 @@ const NewUserForm = ({ createUser }) => {
 
     const handleCreateNewUser = async () => {
         if(name && surname && desc) {
-            const isSucces = await createUser(newUserState);
+            const isSucces = userToEdit ? await editUser(newUserState) : await createUser(newUserState);
             isSucces && setNewUserState(defaultState)
         }
     }
@@ -50,7 +50,8 @@ const NewUserForm = ({ createUser }) => {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
-    createUser
+    createUser,
+    editUser
 };
 
 const connectedNewUserForm = connect(mapStateToProps, mapDispatchToProps)(NewUserForm);

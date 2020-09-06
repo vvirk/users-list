@@ -1,25 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { deleteUser } from '../../actions/index';
+import { deleteUser, setUserToEdit } from '../../actions/index';
 
-const UsersList = ({ usersList, deleteUser}) => {
-    return(<ul>
+const UsersList = ({ usersList, deleteUser, setUserToEdit}) => (
+    <ul>
         {usersList.map(user => <li key={user.id}>
             <h3>{`${user.name} ${user.surname}`}</h3>
             <p>{user.desc}</p>
             <div>
-                <button>редагувати</button>
+                <button onClick={() => setUserToEdit(user)}>редагувати</button>
                 <button onClick={() => deleteUser(user.id)}>видалити</button>
             </div>
         </li>)}
-    </ul>);
-}
+    </ul>
+);
+
 
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
-    deleteUser
+    deleteUser,
+    setUserToEdit
 };
 
 const connectedUsersList = connect(mapStateToProps, mapDispatchToProps)(UsersList);
