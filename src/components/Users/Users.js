@@ -5,6 +5,7 @@ import { getAllUsers } from '../../actions/index';
 import { UsersList } from '../UsersList/UsersList';
 import { Pagination } from '../Pagination/Pagination';
 import { Btn } from '../commonComponents/Btn';
+import { NewUserForm } from '../NewUserForm/NewUserForm';
 
 const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
     const [currentUsers, setCurrentUsers] = useState();
@@ -30,7 +31,7 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
 
     useEffect(() => {
         allUsers && getCurrentUsers(currentPage);
-    }, [allUsers, currentPage]);
+    }, [allUsers, totalPages, currentPage]);
 
     return (
         <div className='users'>
@@ -38,7 +39,7 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
                 handleClick={toggleNewUserForm}
                 desc={'Створити нового користувачва'}
             />
-            {isShowNewUserForm && <div>New user</div>}
+            {isShowNewUserForm && <NewUserForm />}
             {currentUsers && <UsersList usersList={currentUsers} />}
             {totalPages > 1 &&
                 <Pagination />}

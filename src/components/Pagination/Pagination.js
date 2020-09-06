@@ -5,24 +5,42 @@ import { setCurrentPage } from '../../actions/index';
 
 const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
     const [pages, setPages] = useState();
+    const separator = '...';
     useEffect(() => {
     let pageNumbers = [];
-    if(currentPage <= 3) {
-        for(let i = 0; i < 3; i+=1) {
+    if(totalPages < 6) {
+        for(let i = 1; i < 6; i += 1) {
             pageNumbers.push(i);
         }
+    } else {
+        if(currentPage <= 3){
+            for(let i = 1; i <= 4; i += 1) {
+                pageNumbers.push(i);
+            }
+            pageNumbers.push(separator, totalPages);
+        } else if (currentPage > 3 && currentPage < totalPages - 2) {  
+            pageNumbers.push(1, separator, currentPage - 1, currentPage, currentPage + 1, separator, totalPages);
+        } else if (currentPage > 3 && currentPage > totalPages - 3) {
+            pageNumbers.push(1, separator);
+            for(let i = totalPages - 3; i <= totalPages; i += 1) {
+                pageNumbers.push(i);
+            }
+        }
     }
-    setPages(pages);
-    }, []);
+    setPages(pageNumbers);
+    }, [currentPage, totalPages]);
 
     const handleCurrentPage = page => page !== currentPage ? setCurrentPage(page) : null;
 
     return(
         <div>
             <ul>
-                {pages && pages.map((page, index) => <li key={index}>
-                    <button onClick={handleCurrentPage(page)}>{page}</button>
-                </li>)}
+                {pages && pages.map((page, index) => 
+                    <li key={index}>
+                        {page === separator
+                            ? <span>{page}</span>
+                                : <button onClick={() => handleCurrentPage(page)}>{page}</button>}
+                    </li>)}
             </ul>
         </div>
     )
