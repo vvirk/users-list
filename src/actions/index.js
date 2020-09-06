@@ -46,3 +46,19 @@ export const createUser = userState => async dispatch => {
       console.error(e);
     }
 };
+
+export const deleteUser = id => async dispatch => {
+    try {
+      const response = await fetch(getUrl(`user/${id}`), {
+        method: 'DELETE',
+        body: id,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const responseBody = await response.json();
+      dispatch(addAllUsers(responseBody));
+    } catch (e) {
+      console.error(e);
+    }
+};

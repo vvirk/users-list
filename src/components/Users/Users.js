@@ -32,7 +32,6 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages }) => {
     useEffect(() => {
         allUsers && getCurrentUsers(currentPage);
     }, [allUsers, totalPages, currentPage]);
-
     return (
         <div className='users'>
             <Btn

@@ -9,7 +9,7 @@ const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
     useEffect(() => {
     let pageNumbers = [];
     if(totalPages < 6) {
-        for(let i = 1; i < 6; i += 1) {
+        for(let i = 1; i <= totalPages; i += 1) {
             pageNumbers.push(i);
         }
     } else {
@@ -34,6 +34,7 @@ const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
 
     return(
         <div>
+            {currentPage > 1 && <button onClick={() => handleCurrentPage(currentPage - 1)} title={currentPage - 1}>назад</button>}
             <ul>
                 {pages && pages.map((page, index) => 
                     <li key={index}>
@@ -42,6 +43,7 @@ const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
                                 : <button onClick={() => handleCurrentPage(page)}>{page}</button>}
                     </li>)}
             </ul>
+            {currentPage < totalPages && <button onClick={() => handleCurrentPage(currentPage + 1)} title={currentPage + 1}>вперед</button>}
         </div>
     )
 }
