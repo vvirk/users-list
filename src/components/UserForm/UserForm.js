@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 
 import { InputText } from '../commonComponents/InputText';
-import { Btn } from '../commonComponents/Btn';
-import { createUser, editUser } from '../../actions/index';
 
-const NewUserForm = ({ createUser, userToEdit, editUser }) => {
+export const UserForm = ({ createUser, userToEdit, editUser, showUserForm }) => {
     const defaultState = {
         name: '',
         surname: '',
@@ -18,14 +15,21 @@ const NewUserForm = ({ createUser, userToEdit, editUser }) => {
         setNewUserState({ ...newUserState, [userKey]: e.target.value});
     };
 
-    const handleCreateNewUser = async () => {
+    const handleUser = async () => {
         if(name && surname && desc) {
             const isSucces = userToEdit ? await editUser(newUserState) : await createUser(newUserState);
-            isSucces && setNewUserState(defaultState)
+            if (isSucces) {
+                setNewUserState(defaultState);
+                showUserForm(false);
+            }
         }
     }
+
     return(
-        <div>
+        <form onSubmit={e => {
+            e.preventDefault();
+            handleUser();
+        }}>
             <InputText
                 value={name}
                 placeholder={'Введіть ім\'я користувача'}
@@ -42,17 +46,7 @@ const NewUserForm = ({ createUser, userToEdit, editUser }) => {
                 placeholder={'Введіть опис користувача'}
                 handleChange={handleNewUserState('desc')}
             />
-            <Btn desc='Створити' handleClick={handleCreateNewUser} />
-        </div>
+            <input type='submit' placeholder='Зберегти'/>
+        </form>
     )
 }
-
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {
-    createUser,
-    editUser
-};
-
-const connectedNewUserForm = connect(mapStateToProps, mapDispatchToProps)(NewUserForm);
-export { connectedNewUserForm as NewUserForm };

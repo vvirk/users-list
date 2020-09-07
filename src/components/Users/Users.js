@@ -1,47 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { getAllUsers } from '../../actions/index';
+import { getAllUsers, setUserToEdit, createUser, editUser, deleteUser } from '../../actions/index';
 import { UsersList } from '../UsersList/UsersList';
 import { Pagination } from '../Pagination/Pagination';
 import { Btn } from '../commonComponents/Btn';
-import { NewUserForm } from '../NewUserForm/NewUserForm';
+import { UserForm } from '../UserForm/UserForm';
 
-const Users = ({ getAllUsers, allUsers, currentPage, totalPages, userToEdit }) => {
+const Users = ({ getAllUsers, allUsers, currentPage, totalPages, userToEdit, setUserToEdit, createUser, editUser, deleteUser }) => {
     const [currentUsers, setCurrentUsers] = useState();
-    const [isShowNewUserForm, setIsShowNewUserForm] = useState(false);
+    const [isShowUserForm, setIsShowUserForm] = useState(false);
 
-    const toggleNewUserForm = () => setIsShowNewUserForm(isShowNewUserForm ? false : true);
-    const getStartIndex = () => 5 * (currentPage - 1);
-    const getCurrentUsers = () => {
-        if (currentPage === 1) {
-            setCurrentUsers(allUsers.slice(0, 5));
-            return;
-        } else {
-            const startIndex = getStartIndex();
-            setCurrentUsers(allUsers.slice(startIndex, startIndex + 5))
-        }
-    }
+    const toggleNewUserForm = () => setIsShowUserForm(isShowUserForm ? false : true);
+
+    const handleClick = () => {
+        setUserToEdit(null);
+        toggleNewUserForm();
+    };
 
     useEffect(() => {
         getAllUsers();
-    }, []);
+    }, [getAllUsers]);
+
     useEffect(() => {
-        userToEdit && setIsShowNewUserForm(true);
-    }, [userToEdit])
+        setIsShowUserForm(userToEdit ? true : false);
+    }, [userToEdit]);
+
     useEffect(() => {
+        const getStartIndex = () => 5 * (currentPage - 1);
+        const getCurrentUsers = () => {
+            if (currentPage === 1) {
+                setCurrentUsers(allUsers.slice(0, 5));
+                return;
+            } else {
+                const startIndex = getStartIndex();
+                setCurrentUsers(allUsers.slice(startIndex, startIndex + 5))
+            }
+        }
+
         allUsers && getCurrentUsers(currentPage);
     }, [allUsers, totalPages, currentPage]);
+
     return (
         <div className='users'>
             <Btn
-                handleClick={toggleNewUserForm}
+                handleClick={handleClick}
                 desc={'Створити нового користувачва'}
             />
-            {isShowNewUserForm && <NewUserForm userToEdit={userToEdit} />}
-            {currentUsers && <UsersList usersList={currentUsers} />}
-            {totalPages > 1 &&
-                <Pagination />}
+            {isShowUserForm &&
+                <UserForm
+                    userToEdit={userToEdit}
+                    showUserForm={setIsShowUserForm}
+                    createUser={createUser}
+                    editUser={editUser}
+                />}
+            {currentUsers &&
+                <UsersList
+                    usersList={currentUsers}
+                    deleteUser={deleteUser}
+                />}
+            {totalPages > 1 && <Pagination />}
         </div>
     );
 }
@@ -54,7 +72,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    getAllUsers
+    getAllUsers,
+    setUserToEdit,
+    createUser,
+    editUser,
+    deleteUser
 };
 
 const connectedUsers = connect(mapStateToProps, mapDispatchToProps)(Users);
