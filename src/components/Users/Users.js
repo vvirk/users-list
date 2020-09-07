@@ -58,6 +58,7 @@ const Users = ({ getAllUsers, allUsers, currentPage, totalPages, userToEdit, set
                 <UsersList
                     usersList={currentUsers}
                     deleteUser={deleteUser}
+                    setUserToEdit={setUserToEdit}
                 />}
             {totalPages > 1 && <Pagination />}
         </div>

@@ -5,8 +5,12 @@ import { Users } from './components/Users/Users';
 
 export const App = () => {
   return(
-  <div className="App">
-    <Users />
+  <div className='App'>
+    <div className='inner'>
+      <div className='content'>
+        <Users />
+      </div>
+    </div>
   </div>
 )};
 

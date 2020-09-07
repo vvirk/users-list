@@ -46,7 +46,7 @@ export const UserForm = ({ createUser, userToEdit, editUser, showUserForm }) => 
                 placeholder={'Введіть опис користувача'}
                 handleChange={handleNewUserState('desc')}
             />
-            <input type='submit' placeholder='Зберегти'/>
+            <input className='btn btnSubmit' type='submit' placeholder='Зберегти'/>
         </form>
     )
 }

@@ -1,6 +1,106 @@
 @import 'normalize';
 @import 'reset';
 
-.App {
-  background: #ebebeb;
+.inner {
+  width: 100%;
+  padding: 25px 0;
+}
+
+.content {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.btn {
+  margin: 10px 0;
+  padding: 10px 20px;
+  background: #040450;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 1px 6px 0 rgba(32,33,36,.28);
+  border-color: rgba(223,225,229,0);
+  cursor: pointer;
+  &:hover {
+    background:#101098;
+    transition: .7s;
+  }
+  &.editBtn {
+    padding: 6px 20px;
+    margin-right: 10px;
+    background: transparent;
+    color: black;
+    border: 1px solid black;
+    border-radius: 2px;
+    &:hover {
+      background: #040450;
+      color: #fff;
+      transition: .7s;
+    }
+  }
+  &.btnSubmit {
+    width: 100%;
+  }
+  
+}
+
+.user {
+  padding: 10px;
+  margin: 10px 0;
+  box-shadow: 0 1px 6px 0 rgba(32,33,36,.28);
+  border-color: rgba(223,225,229,0);
+  &-list {
+    padding: 20px 0;
+  }
+  &-title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  &-desc {
+    padding: 10px 0;
+  }
+}
+
+.inputText {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: transparent;
+  border-radius: 5px;
+  box-shadow: 0 1px 6px 0 rgba(32,33,36,.28);
+  border-color: rgba(223,225,229,0);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  &-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 35px;
+  }
+  &Btn {
+    background: transparent;
+    color: black;
+    border: 1px solid black;
+    margin: 0 5px;
+    &:hover {
+      color: #fff;
+      transition: .7s;
+    }
+    &.isActive {
+      background: #040450;
+      color: #fff;
+    }
+  }
+}
+
+.separator {
+  padding: 0 10px;
+  user-select: none;
 }

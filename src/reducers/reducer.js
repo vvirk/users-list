@@ -15,11 +15,21 @@ export const reducer = (state = initialState, action) => {
       const { allUsers } = action;
       const totalPages = countTotalPages(allUsers.length);
 
-      return { ...state, allUsers, totalPages, currentPage: totalPages <= 5 ? 1 : state.currentPage };
+      return {
+        ...state,
+          allUsers,
+          totalPages,
+          currentPage: totalPages <= 5 ? 1 : state.currentPage,
+          userToEdit: null
+      };
     case type.ADD_NEW_USER:
       const _allUsers = [...state.allUsers, { ...action.user }];
 
-      return { ...state, allUsers: _allUsers, totalPages: countTotalPages(_allUsers.length) }
+      return { 
+        ...state, 
+          allUsers: _allUsers, 
+          totalPages: countTotalPages(_allUsers.length)
+      }
     case type.SET_CURRENT_PAGE:
       return { ...state, currentPage: action.currentPage };
     case type.SET_USER_TO_EDIT:

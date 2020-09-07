@@ -15,18 +15,31 @@ const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
 
     const handleCurrentPage = page => page !== currentPage ? setCurrentPage(page) : null;
 
+    const setIsActive = (page, currentPage) => page === currentPage ? 'isActive' : null;
+
     return(
-        <div>
-            {currentPage > 1 && <button onClick={() => handleCurrentPage(currentPage - 1)} title={currentPage - 1}>назад</button>}
-            <ul>
+        <div className='pagination-wrap'>
+            {currentPage > 1 &&
+                <Btn
+                    extraClass='paginationBtn'
+                    handleClick={() => handleCurrentPage(currentPage - 1)}
+                    title={currentPage - 1} desc='&#9668;'
+                />
+            /*<button className='paginationBtn' onClick={() => handleCurrentPage(currentPage - 1)} title={currentPage - 1}>&#9668;</button>*/}
+            <ul className='pagination'>
                 {pages && pages.map((page, index) => 
                     <li key={index}>
                         {page === separator
-                            ? <span>{page}</span>
-                                : <Btn handleClick={() => handleCurrentPage(page)} desc={page} />}
+                            ? <span className='separator'>{page}</span>
+                                : <Btn extraClass={`paginationBtn ${setIsActive(page, currentPage)}`} handleClick={() => handleCurrentPage(page)} desc={page} />}
                     </li>)}
             </ul>
-            {currentPage < totalPages && <button onClick={() => handleCurrentPage(currentPage + 1)} title={currentPage + 1}>вперед</button>}
+            {currentPage < totalPages &&
+                <Btn
+                    extraClass='paginationBtn'
+                    handleClick={() => handleCurrentPage(currentPage + 1)}
+                    title={currentPage + 1} desc='&#9658;'
+                />/*<button className='paginationBtn' onClick={() => handleCurrentPage(currentPage + 1)} title={currentPage + 1}>&#9658;</button>*/}
         </div>
     )
 }
